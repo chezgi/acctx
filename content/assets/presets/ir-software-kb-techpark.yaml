@@ -1,0 +1,8 @@
+schema_version: 1
+id: ir-software-kb-techpark
+jurisdiction: IR
+business_model: software
+sales_scope: domestic-only
+has_exports: false
+knowledge_based: true
+technology_park_member: true
