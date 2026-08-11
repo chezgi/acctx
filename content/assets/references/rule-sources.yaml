@@ -1,0 +1,31 @@
+schema_version: 1
+reviewed_at: "2026-08-11"
+final_verification_required: true
+sources:
+  - id: IR-DIRECT-TAX-ARTICLE-105
+    title_fa: ماده ۱۰۵ قانون مالیات‌های مستقیم
+    rule: نرخ عمومی مالیات اشخاص حقوقی
+    authority_level: official-binding
+  - id: IR-VAT-LAW-1400-ARTICLE-7
+    title_fa: ماده ۷ قانون مالیات بر ارزش افزوده مصوب ۱۴۰۰
+    rule: نرخ پایه عمومی ارزش افزوده
+    authority_level: official-binding
+  - id: IR-BUDGET-1403-VAT
+    title_fa: حکم بودجه ۱۴۰۳ درباره افزایش یک واحد درصدی نرخ عمومی ارزش افزوده
+    authority_level: official-binding
+  - id: IR-TAX-CIRCULAR-200-98-4
+    title_fa: بخشنامه مالیات حقوق ۱۳۹۸ شماره ۲۰۰/۹۸/۴
+    authority_level: official-circular
+  - id: IR-TAX-CIRCULAR-210-99-10
+    title_fa: بخشنامه مالیات حقوق ۱۳۹۹ شماره ۲۱۰/۹۹/۱۰
+    authority_level: official-circular
+  - id: IR-TAX-CIRCULAR-210-1400-3
+    title_fa: بخشنامه مالیات حقوق ۱۴۰۰ شماره ۲۱۰/۱۴۰۰/۳
+    authority_level: official-circular
+  - id: IR-TAX-CIRCULAR-200-1401-7
+    title_fa: بخشنامه مالیات حقوق ۱۴۰۱ شماره ۲۰۰/۱۴۰۱/۷
+    authority_level: official-circular
+notes_fa:
+  - پارامترهای بودجه سنواتی ۱۳۹۷ تا ۱۴۰۵ باید پیش از ارسال یا دفاع با متن رسمی همان سال تطبیق داده شوند.
+  - محاسبه حقوق فقط درآمد عادی مشمول نرخ پلکانی را پوشش می‌دهد؛ اقلام با نرخ خاص یا معافیت ویژه خارج از دامنه هستند.
+  - تمدیدهای موقت مهلت و تعطیلات رسمی در محاسبه مهلت پایه اعمال نمی‌شوند.

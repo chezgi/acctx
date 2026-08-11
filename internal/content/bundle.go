@@ -52,7 +52,7 @@ func Embedded() (Bundle, error) {
 	}
 	catalog := Catalog{
 		SchemaVersion:  1,
-		ContentVersion: "0.2.0",
+		ContentVersion: "0.3.0",
 		SupportedYears: []int{1397, 1398, 1399, 1400, 1401, 1402, 1403, 1404, 1405},
 		DefaultPreset:  "ir-software-kb-techpark",
 		Skills:         skills,
