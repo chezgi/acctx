@@ -4,9 +4,9 @@
 
 ## Product boundary
 
-`acctx` provides project initialization, embedded Iran-focused skills, managed agent instructions, project inspection, lightweight company/year/task scaffolding, deterministic filesystem plans, skill overrides, and explicit content upgrades.
+`acctx` provides project initialization, embedded Iran-focused skills, managed agent instructions, project inspection, lightweight company/year/task scaffolding, deterministic filesystem plans, standard-input validation, narrow tax reconciliations, skill overrides, and explicit content upgrades.
 
-It is **not** an accounting ledger, ERP, generic ETL engine, AI runtime, or government-submission client. Codex, Claude Code, or another external agent interprets irregular company files through the materialized skills. `acctx` only owns deterministic workspace operations and, in later phases, narrow validation/calculation/export commands.
+It is **not** an accounting ledger, ERP, generic ETL engine, AI runtime, or government-submission client. Codex, Claude Code, or another external agent interprets irregular company files through the materialized skills. `acctx` only owns deterministic workspace operations and narrow validation/calculation/export commands.
 
 ## Requirements
 
@@ -29,7 +29,7 @@ acctx init --plan
 acctx init --non-interactive --yes
 ```
 
-`init` creates `.acctx/manifest.yaml`, editable company bootstrap files, 27 vendor skills for the `ir-software-kb-techpark` preset, vendor workflows/templates/references, and relative Claude Code/Codex skill symlinks.
+`init` creates `.acctx/manifest.yaml`, editable company bootstrap files, 27 vendor skills for the `ir-software-kb-techpark` preset, vendor workflows/templates/references/rules, and relative Claude Code/Codex skill symlinks.
 
 ## Agent integration
 
@@ -88,6 +88,87 @@ acctx task status vat-q1 --year 1405
 
 A task workspace connects original inputs, one domain skill, optional standard templates, deterministic calculation results, AI-generated drafts, and a final checklist. Original company files remain free-form.
 
+## Standard CSV validation
+
+Calculators accept only the standard task CSV formats materialized by `task init`.
+
+```bash
+acctx validate kinds
+acctx validate vat \
+  --input accounting/fiscal-years/1405/work/vat-q1/templates/input.csv
+
+acctx validate corporate-tax \
+  --input accounting/fiscal-years/1404/work/corporate-tax/templates/adjustments.csv
+
+acctx validate payroll-tax \
+  --input accounting/fiscal-years/1405/work/payroll-tax/templates/input.csv
+```
+
+All monetary values are integer IRR. Invalid or unresolved classifications return exit code `2`.
+
+## Deterministic calculators
+
+### VAT reconciliation
+
+```bash
+acctx calc vat \
+  --year 1405 \
+  --input accounting/fiscal-years/1405/work/vat-q1/templates/input.csv \
+  --output accounting/fiscal-years/1405/work/vat-q1/calculations/result.json \
+  --json
+```
+
+The calculator reconciles output VAT and only includes purchase rows classified as `eligible-credit`. It reports general-rate mismatches but does not decide legal eligibility for the agent or user.
+
+### Corporate income-tax reconciliation
+
+```bash
+acctx calc corporate-tax \
+  --year 1404 \
+  --book-profit 10000000000 \
+  --tax-credits 500000000 \
+  --input accounting/fiscal-years/1404/work/corporate-tax/templates/adjustments.csv \
+  --output accounting/fiscal-years/1404/work/corporate-tax/calculations/result.json \
+  --json
+```
+
+Only adjustment rows marked `approved` or `accepted` are included. Exemptions, credits, knowledge-based benefits, technology-park benefits, and R&D credits must be supported and reviewed before they are supplied to the calculator.
+
+### Payroll-tax reconciliation
+
+```bash
+acctx calc payroll-tax \
+  --year 1405 \
+  --input accounting/fiscal-years/1405/work/payroll-tax/templates/input.csv \
+  --output accounting/fiscal-years/1405/work/payroll-tax/calculations/result.json \
+  --json
+```
+
+This calculator covers ordinary progressive annual salary income. Special-category, flat-rate, and separately exempt items must be classified outside the calculator before use.
+
+### Statutory-baseline deadlines
+
+```bash
+acctx calc deadline-events
+acctx calc deadline \
+  --event tax-assessment-objection \
+  --date 1405-05-10 \
+  --json
+```
+
+Deadline output is a **statutory baseline**. It does not silently apply holidays, working-day rules, temporary extensions, or special service/notification facts. Final verification is required.
+
+## Annual rule content
+
+Embedded rules cover 1397 through 1405 and are materialized at:
+
+```text
+rules/vendor/ir/annual.json
+references/vendor/rule-sources.yaml
+```
+
+Algorithms are type-safe Go code; annual rates, brackets, scope notes, and source identifiers are versioned data. Installing a new binary does not silently rewrite a company project. Filing-time verification against official sources remains mandatory.
+
 ## Project inspection
 
 ```bash
@@ -130,9 +211,9 @@ All company data is intended to be Git-trackable except secrets. The managed `.g
 
 Never commit passwords, API tokens, private keys, signing keys, portal sessions, or unencrypted private certificate keys.
 
-## Remaining deterministic phases
+## Remaining deterministic phase
 
-P2 adds narrow validators and calculators for standard task templates. P3 adds controlled draft exporters and evidence bundles. Neither phase will add an internal AI runtime or direct government submission.
+P3 adds controlled draft exporters, task/evidence manifests, and portable audit/tax bundles. It will not add an internal AI runtime, direct government submission, or a generic reporting database.
 
 ## Research-source policy
 

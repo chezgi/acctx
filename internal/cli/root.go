@@ -80,6 +80,10 @@ func (command *RootCommand) Execute() error {
 		return runYear(command.app, args[1:])
 	case "task":
 		return runTask(command.app, args[1:])
+	case "validate":
+		return runValidate(command.app, args[1:])
+	case "calc":
+		return runCalc(command.app, args[1:])
 	default:
 		return &ExitError{
 			Code: ExitFailure,
