@@ -1,7 +1,26 @@
 ---
 id: acctx-source-review
-version: "0.1.0"
-title: Source review
+version: "0.2.0"
+title_fa: بررسی منابع و فایل‌های ورودی
 ---
-# Source Review
-Inspect user-provided files in their original formats. AI agents may interpret and transform irregular inputs. `acctx` itself is reserved for deterministic workspace operations, validation, calculations and exports when those commands exist.
+# بررسی منابع و فایل‌های ورودی
+
+## هدف
+فایل‌های واقعی شرکت را در قالب موجودشان بررسی و برای یک Task مشخص قابل استفاده کن.
+
+## روال
+1. فهرست فایل‌ها، فرمت، دوره، سیستم مبدأ و محدودیت خواندن را ثبت کن.
+2. میان «فایل اصلی»، «فایل استخراج‌شده» و «فرض تحلیلی» تمایز روشن بگذار.
+3. از Excel، CSV، Markdown، PDF و تصویر فقط اطلاعاتی را استخراج کن که قابل مشاهده و ردیابی است.
+4. ستون‌ها یا مفاهیم مبهم را حدس قطعی نزن؛ سؤال یا Assumption ثبت کن.
+5. در صورت نیاز، داده را به Template محدود همان Task منتقل کن.
+
+## خروجی
+- `source-inventory.md`
+- `questions.md`
+- فایل استاندارد Task با ارجاع به فایل/Sheet/ردیف یا صفحه مبدأ
+
+## ممنوع
+- تغییر فایل اصلی کاربر
+- ساختن عدد مفقود
+- استفاده از مقاله پژوهشی به‌عنوان قانون یا استاندارد
