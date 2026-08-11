@@ -48,11 +48,25 @@ func BuildProjectInitPlan(root string, options InitOptions, contentBundle bundle
 	}
 
 	previousFiles := map[string]manifest.File{}
+	previousSkills := map[string]manifest.Skill{}
 	if previous, loadErr := manifest.Load(root); loadErr == nil {
 		for _, file := range previous.Managed.Files {
 			previousFiles[file.Path] = file
 		}
+		for _, skill := range previous.Managed.Skills {
+			previousSkills[skill.ID] = skill
+		}
 	}
+	for index := range model.Managed.Skills {
+		previous, ok := previousSkills[model.Managed.Skills[index].ID]
+		if !ok || previous.Override == nil {
+			continue
+		}
+		overrideCopy := *previous.Override
+		model.Managed.Skills[index].Override = &overrideCopy
+		model.Managed.Skills[index].ActivePath = previous.ActivePath
+	}
+
 	ruleFiles, err := contentBundle.ReadTree("rules")
 	if err != nil {
 		return plan.Plan{}, manifest.Model{}, err

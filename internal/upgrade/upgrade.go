@@ -1,17 +1,28 @@
 package upgrade
 
 import (
+	"acctx/internal/buildinfo"
 	bundle "acctx/internal/content"
 	"acctx/internal/manifest"
 	"acctx/internal/plan"
+	"acctx/internal/workspace"
 	"time"
 )
 
-func Build(root string, b bundle.Bundle, now time.Time) (plan.Plan, error) {
-	m, e := manifest.Load(root)
-	if e != nil { return plan.Plan{}, e }
-	if m.Generator.ContentVersion == b.Catalog.ContentVersion {
-		return plan.New("project upgrade", root, now, []plan.Operation{{Kind: plan.Skip, Path: ".acctx/manifest.yaml", Message: "content already current"}}), nil
+// Build creates an explicit, drift-aware content upgrade plan. It reuses the
+// same materialization rules as init, so vendor files update only when their
+// current digest matches the digest recorded by the previous manifest.
+func Build(root string, contentBundle bundle.Bundle, build buildinfo.Info, now time.Time) (plan.Plan, error) {
+	current, err := manifest.Load(root)
+	if err != nil {
+		return plan.Plan{}, err
 	}
-	return plan.New("project upgrade", root, now, []plan.Operation{{Kind: plan.Conflict, Path: ".acctx/manifest.yaml", Message: "upgrade between content versions requires migration support"}}), nil
+	initPlan, _, err := workspace.BuildProjectInitPlan(root, workspace.InitOptions{
+		ProjectID: current.Project.ID,
+		Preset:    current.Project.Preset,
+	}, contentBundle, build, now)
+	if err != nil {
+		return plan.Plan{}, err
+	}
+	return plan.New("project upgrade", root, now, initPlan.Operations), nil
 }
