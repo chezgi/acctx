@@ -1,0 +1,11 @@
+schema_version: 1
+source_type: research_article
+title_fa: طراحی مدل هوش مصنوعی در انجام فرایندهای عملیاتی حسابداری
+authority_level: non_authoritative
+approval_status: not_approved
+usage: research_input_only
+prohibited_uses:
+  - legal_rule_source
+  - accounting_standard_source
+  - automatic_architecture_decision
+note_fa: هر پیشنهاد مشخص برگرفته از این مقاله فقط پس از تأیید صریح مالک پروژه قابل اعمال است.

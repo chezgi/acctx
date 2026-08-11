@@ -1,0 +1,13 @@
+schema_version: 1
+jurisdiction: IR
+classes:
+  - id: official-binding
+    examples: [law, regulation, official-circular, official-technical-specification]
+  - id: reviewed-secondary
+    examples: [professional-commentary, reviewed-training-material]
+  - id: research-non-authoritative
+    examples: [academic-article, working-paper]
+requirements:
+  effective_date_required: true
+  source_id_required_for_rules: true
+  final_verification_required: true

@@ -6,3 +6,31 @@ sales_scope: domestic-only
 has_exports: false
 knowledge_based: true
 technology_park_member: true
+skills:
+  - acctx-workspace
+  - acctx-source-review
+  - acctx-company-profile
+  - acctx-fiscal-year
+  - acctx-task-workspace
+  - acctx-software-contract-review
+  - acctx-revenue-recognition
+  - acctx-bank-reconciliation
+  - acctx-sales-review
+  - acctx-purchase-review
+  - acctx-taxpayer-system
+  - acctx-vat
+  - acctx-corporate-income-tax
+  - acctx-payroll-tax
+  - acctx-social-security
+  - acctx-rental-tax
+  - acctx-electronic-books
+  - acctx-article-169
+  - acctx-knowledge-based
+  - acctx-technology-park
+  - acctx-rd-tax-credit
+  - acctx-financial-statements
+  - acctx-audit-preparation
+  - acctx-tax-defense
+  - acctx-social-security-defense
+  - acctx-compliance-calendar
+  - acctx-legal-update
