@@ -1,7 +1,22 @@
 ---
 id: acctx-workspace
-version: "0.1.0"
-title: ACCTX workspace
+version: "0.2.0"
+title_fa: راهنمای فضای کاری acctx
 ---
-# ACCTX Workspace
-Use this skill to understand the company workspace. Read `AGENTS.md`, company files, the selected fiscal-year inputs, relevant workflows and references before producing accounting or compliance work. Do not modify `skills/vendor/` directly; use a company override.
+# فضای کاری acctx
+
+## هدف
+ساختار پروژه شرکت را شناسایی کن و قبل از هر کار، سال مالی، Task، ورودی‌ها و منابع مرتبط را تعیین کن.
+
+## روال
+1. `AGENTS.md` و `.acctx/manifest.yaml` را بخوان.
+2. فایل‌های `accounting/company/` را فقط برای اطلاعات موردنیاز Task بررسی کن.
+3. سال مالی و مسیر `inputs/` را مشخص کن؛ ساختار فایل‌های کاربر آزاد است.
+4. Skill تخصصی مرتبط را انتخاب کن.
+5. فایل‌های اصلی را بازنویسی نکن؛ فایل کاری را در `work/` و خروجی را در `outputs/` بساز.
+6. محاسبات فرمولی را فقط با فرمان قطعی موجود در `acctx` انجام بده.
+
+## کنترل‌ها
+- `skills/vendor/`، `workflows/vendor/` و `references/vendor/` مستقیماً ویرایش نشوند.
+- خروجی Agent پیش‌نویس است و ارسال یا تأیید قانونی محسوب نمی‌شود.
+- ادعاهای قانونی باید به منبع معتبر همان دوره متصل باشند.

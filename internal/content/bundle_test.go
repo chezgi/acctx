@@ -3,14 +3,20 @@ package content
 import "testing"
 
 func TestEmbeddedCatalog(t *testing.T) {
-	b, e := Embedded()
-	if e != nil {
-		t.Fatal(e)
+	bundle, err := Embedded()
+	if err != nil {
+		t.Fatal(err)
 	}
-	if b.Catalog.SupportedYears[0] != 1397 || b.Catalog.SupportedYears[len(b.Catalog.SupportedYears)-1] != 1405 {
-		t.Fatalf("years=%v", b.Catalog.SupportedYears)
+	if bundle.Catalog.SupportedYears[0] != 1397 || bundle.Catalog.SupportedYears[len(bundle.Catalog.SupportedYears)-1] != 1405 {
+		t.Fatalf("years=%v", bundle.Catalog.SupportedYears)
 	}
-	if len(b.Catalog.Skills) != 2 {
-		t.Fatalf("skills=%v", b.Catalog.Skills)
+	if got, want := len(bundle.Catalog.Skills), 27; got != want {
+		t.Fatalf("skill count=%d want=%d", got, want)
+	}
+	if _, ok := bundle.Catalog.Skill("acctx-vat"); !ok {
+		t.Fatal("acctx-vat missing from catalog")
+	}
+	if files, err := bundle.ReadTree("workflows"); err != nil || len(files) < 5 {
+		t.Fatalf("workflows=%d err=%v", len(files), err)
 	}
 }
