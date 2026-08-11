@@ -96,7 +96,7 @@ func parseFlags(args []string) (map[string]string, map[string]bool, []string, er
 	for index := 0; index < len(args); index++ {
 		argument := args[index]
 		switch argument {
-		case "--plan", "--yes", "--non-interactive", "--allow-dirty", "--force", "--historical", "--archive":
+		case "--plan", "--yes", "--non-interactive", "--allow-dirty", "--force", "--historical", "--archive", "--include-company", "--include-year-inputs":
 			booleans[argument] = true
 		default:
 			if strings.HasPrefix(argument, "--") {

@@ -84,6 +84,10 @@ func (command *RootCommand) Execute() error {
 		return runValidate(command.app, args[1:])
 	case "calc":
 		return runCalc(command.app, args[1:])
+	case "evidence":
+		return runEvidence(command.app, args[1:])
+	case "export":
+		return runExport(command.app, args[1:])
 	default:
 		return &ExitError{
 			Code: ExitFailure,

@@ -4,9 +4,9 @@
 
 ## Product boundary
 
-`acctx` provides project initialization, embedded Iran-focused skills, managed agent instructions, project inspection, lightweight company/year/task scaffolding, deterministic filesystem plans, standard-input validation, narrow tax reconciliations, skill overrides, and explicit content upgrades.
+`acctx` provides project initialization, embedded Iran-focused skills, managed agent instructions, company/year/task scaffolding, deterministic validation and reconciliation calculators, evidence indexing, controlled draft bundles, skill overrides, and explicit content upgrades.
 
-It is **not** an accounting ledger, ERP, generic ETL engine, AI runtime, or government-submission client. Codex, Claude Code, or another external agent interprets irregular company files through the materialized skills. `acctx` only owns deterministic workspace operations and narrow validation/calculation/export commands.
+It is **not** an accounting ledger, ERP, generic ETL engine, AI runtime, legal decision-maker, or government-submission client. Codex, Claude Code, or another external agent interprets irregular company files through materialized skills. `acctx` owns only deterministic workspace, calculation, validation, indexing, and export operations.
 
 ## Requirements
 
@@ -14,7 +14,7 @@ It is **not** an accounting ledger, ERP, generic ETL engine, AI runtime, or gove
 - An existing Git repository
 - Git remains the rollback/history mechanism; `acctx` does not create commits or modify branches/remotes.
 
-## Build
+## Build and verify
 
 ```bash
 make verify
@@ -29,7 +29,13 @@ acctx init --plan
 acctx init --non-interactive --yes
 ```
 
-`init` creates `.acctx/manifest.yaml`, editable company bootstrap files, 27 vendor skills for the `ir-software-kb-techpark` preset, vendor workflows/templates/references/rules, and relative Claude Code/Codex skill symlinks.
+`init` creates:
+
+- `.acctx/manifest.yaml`;
+- editable company bootstrap files;
+- 28 vendor skills for the `ir-software-kb-techpark` preset;
+- vendor workflows, templates, references, and annual rules;
+- relative Claude Code and Codex skill symlinks.
 
 ## Agent integration
 
@@ -56,7 +62,7 @@ acctx company validate --profile vat-ready
 
 ## Fiscal years
 
-A fiscal year is only a folder/context descriptor. Creating it does not create a ledger, opening entries, or balance roll-forward.
+A fiscal year is a context folder. Creating it does not create a ledger, opening entries, or balance roll-forward.
 
 ```bash
 acctx year init 1405 --non-interactive --yes
@@ -86,20 +92,18 @@ acctx task list --year 1405
 acctx task status vat-q1 --year 1405
 ```
 
-A task workspace connects original inputs, one domain skill, optional standard templates, deterministic calculation results, AI-generated drafts, and a final checklist. Original company files remain free-form.
+A task workspace connects original inputs, one domain skill, optional templates, deterministic calculation results, AI-generated drafts, and a final checklist. Original company files remain free-form.
 
 ## Standard CSV validation
 
-Calculators accept only the standard task CSV formats materialized by `task init`.
+Calculators accept only standard task CSV formats materialized by `task init`.
 
 ```bash
 acctx validate kinds
 acctx validate vat \
   --input accounting/fiscal-years/1405/work/vat-q1/templates/input.csv
-
 acctx validate corporate-tax \
   --input accounting/fiscal-years/1404/work/corporate-tax/templates/adjustments.csv
-
 acctx validate payroll-tax \
   --input accounting/fiscal-years/1405/work/payroll-tax/templates/input.csv
 ```
@@ -118,7 +122,7 @@ acctx calc vat \
   --json
 ```
 
-The calculator reconciles output VAT and only includes purchase rows classified as `eligible-credit`. It reports general-rate mismatches but does not decide legal eligibility for the agent or user.
+Only purchase rows classified as `eligible-credit` are included as input credit. A valid calculation does not prove legal eligibility.
 
 ### Corporate income-tax reconciliation
 
@@ -132,7 +136,7 @@ acctx calc corporate-tax \
   --json
 ```
 
-Only adjustment rows marked `approved` or `accepted` are included. Exemptions, credits, knowledge-based benefits, technology-park benefits, and R&D credits must be supported and reviewed before they are supplied to the calculator.
+Only adjustment rows marked `approved` or `accepted` are included. Benefits and credits require evidence and human review before being supplied.
 
 ### Payroll-tax reconciliation
 
@@ -144,7 +148,7 @@ acctx calc payroll-tax \
   --json
 ```
 
-This calculator covers ordinary progressive annual salary income. Special-category, flat-rate, and separately exempt items must be classified outside the calculator before use.
+This calculator covers ordinary progressive annual salary income. Special-category, flat-rate, and separately exempt items must be classified outside the calculator.
 
 ### Statutory-baseline deadlines
 
@@ -156,7 +160,85 @@ acctx calc deadline \
   --json
 ```
 
-Deadline output is a **statutory baseline**. It does not silently apply holidays, working-day rules, temporary extensions, or special service/notification facts. Final verification is required.
+Deadline output is a statutory baseline. It does not silently apply holidays, working-day rules, temporary extensions, or special notification facts.
+
+## Evidence indexes
+
+```bash
+acctx evidence index \
+  --year 1405 \
+  --task vat-q1 \
+  --output accounting/fiscal-years/1405/work/vat-q1/calculations/evidence-index.json \
+  --json
+```
+
+Optional scope flags:
+
+```text
+--include-company
+--include-year-inputs
+```
+
+The index records project-relative paths, categories, media types, sizes, and SHA-256 values. Symlinks and non-regular files are rejected.
+
+## Controlled draft bundles
+
+List formats:
+
+```bash
+acctx export formats
+```
+
+Generic task bundle:
+
+```bash
+acctx export task \
+  --year 1405 \
+  --task vat-q1 \
+  --output accounting/fiscal-years/1405/outputs/vat-q1.zip \
+  --include-company \
+  --json
+```
+
+Audit pack wrapper:
+
+```bash
+acctx export audit-pack \
+  --year 1404 \
+  --task audit \
+  --output accounting/fiscal-years/1404/outputs/audit-pack.zip \
+  --json
+```
+
+Tax pack wrapper:
+
+```bash
+acctx export tax-pack \
+  --year 1399 \
+  --task tax-defense \
+  --output accounting/fiscal-years/1399/outputs/tax-defense.zip \
+  --json
+```
+
+Existing ZIP files are protected unless `--force` is supplied.
+
+Verify a bundle independently:
+
+```bash
+acctx export verify \
+  --input accounting/fiscal-years/1399/outputs/tax-defense.zip \
+  --json
+```
+
+Every bundle contains:
+
+```text
+bundle-manifest.json
+evidence-index.json
+files/<project-relative-path>
+```
+
+Every bundle is marked `draft`, `submission_performed: false`, and `final_human_review_required: true`. Technical verification does not approve or submit the package.
 
 ## Annual rule content
 
@@ -167,16 +249,21 @@ rules/vendor/ir/annual.json
 references/vendor/rule-sources.yaml
 ```
 
-Algorithms are type-safe Go code; annual rates, brackets, scope notes, and source identifiers are versioned data. Installing a new binary does not silently rewrite a company project. Filing-time verification against official sources remains mandatory.
+Algorithms are type-safe Go code; annual rates, brackets, scope notes, and source identifiers are versioned data. Filing-time verification against official sources remains mandatory.
 
-## Project inspection
+## Project inspection and upgrade
 
 ```bash
 acctx project status
 acctx project doctor
 acctx content version
 acctx content list
+
+acctx project upgrade --plan
+acctx project upgrade --non-interactive --yes
 ```
+
+Upgrade is explicit and drift-aware. Unmodified vendor content may be updated; modified vendor files become conflicts. Company-owned files and full skill overrides remain preserved.
 
 ## Skill lifecycle
 
@@ -190,15 +277,6 @@ acctx skill diff acctx-vat
 acctx skill reset acctx-vat --force --yes
 ```
 
-## Upgrade
-
-```bash
-acctx project upgrade --plan
-acctx project upgrade --yes
-```
-
-Cross-version updates remain conservative: company-owned files and company skill overrides are never silently overwritten.
-
 ## Git and security policy
 
 All company data is intended to be Git-trackable except secrets. The managed `.gitignore` block excludes only:
@@ -209,11 +287,7 @@ All company data is intended to be Git-trackable except secrets. The managed `.g
 .acctx/tmp/
 ```
 
-Never commit passwords, API tokens, private keys, signing keys, portal sessions, or unencrypted private certificate keys.
-
-## Remaining deterministic phase
-
-P3 adds controlled draft exporters, task/evidence manifests, and portable audit/tax bundles. It will not add an internal AI runtime, direct government submission, or a generic reporting database.
+Never commit passwords, API tokens, private keys, signing keys, portal sessions, or unencrypted private certificate keys. Export only the smallest necessary bundle scope.
 
 ## Research-source policy
 

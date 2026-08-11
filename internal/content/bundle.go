@@ -30,14 +30,15 @@ type Bundle struct {
 func coreSkillIDs() []string {
 	return []string{
 		"acctx-workspace", "acctx-source-review", "acctx-company-profile",
-		"acctx-fiscal-year", "acctx-task-workspace", "acctx-software-contract-review",
-		"acctx-revenue-recognition", "acctx-bank-reconciliation", "acctx-sales-review",
-		"acctx-purchase-review", "acctx-taxpayer-system", "acctx-vat",
-		"acctx-corporate-income-tax", "acctx-payroll-tax", "acctx-social-security",
-		"acctx-rental-tax", "acctx-electronic-books", "acctx-article-169",
-		"acctx-knowledge-based", "acctx-technology-park", "acctx-rd-tax-credit",
-		"acctx-financial-statements", "acctx-audit-preparation", "acctx-tax-defense",
-		"acctx-social-security-defense", "acctx-compliance-calendar", "acctx-legal-update",
+		"acctx-fiscal-year", "acctx-task-workspace", "acctx-evidence-bundle",
+		"acctx-software-contract-review", "acctx-revenue-recognition", "acctx-bank-reconciliation",
+		"acctx-sales-review", "acctx-purchase-review", "acctx-taxpayer-system",
+		"acctx-vat", "acctx-corporate-income-tax", "acctx-payroll-tax",
+		"acctx-social-security", "acctx-rental-tax", "acctx-electronic-books",
+		"acctx-article-169", "acctx-knowledge-based", "acctx-technology-park",
+		"acctx-rd-tax-credit", "acctx-financial-statements", "acctx-audit-preparation",
+		"acctx-tax-defense", "acctx-social-security-defense", "acctx-compliance-calendar",
+		"acctx-legal-update",
 	}
 }
 
@@ -48,11 +49,15 @@ func Embedded() (Bundle, error) {
 	}
 	skills := make([]Skill, 0, len(coreSkillIDs()))
 	for _, id := range coreSkillIDs() {
-		skills = append(skills, Skill{ID: id, Version: "0.2.0", Path: "skills/" + id})
+		version := "0.2.0"
+		if id == "acctx-evidence-bundle" {
+			version = "0.4.0"
+		}
+		skills = append(skills, Skill{ID: id, Version: version, Path: "skills/" + id})
 	}
 	catalog := Catalog{
 		SchemaVersion:  1,
-		ContentVersion: "0.3.0",
+		ContentVersion: "0.4.0",
 		SupportedYears: []int{1397, 1398, 1399, 1400, 1401, 1402, 1403, 1404, 1405},
 		DefaultPreset:  "ir-software-kb-techpark",
 		Skills:         skills,
